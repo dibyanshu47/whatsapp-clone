@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Dialog, withStyles, Box, Typography, makeStyles, List, ListItem } from '@material-ui/core';
+import { GoogleLogin } from 'react-google-login';
+
+import { AccountContext } from '../../context/AccountProvider';
 
 const useStyles = makeStyles({
     component: {
         display: 'flex'
     },
     leftComponent: {
-        padding: '56px 0 56px 56px'
+        padding: '56px 0 56px 42px'
     },
     qrCode: {
         height: 264,
@@ -40,13 +43,27 @@ const style = {
         boxShadow: 'none',
         borderRadius: 0,
         maxHeight: '100%',
-        maxWidth: '100%'
+        maxWidth: '100%',
+        overflow: 'hidden'
     }
 }
 
 const Login = ({ classes }) => {
     const classname = useStyles();
     const qrurl = 'https://ginifab.com/feeds/qr_code/img/qrcode.jpg';
+    const clientId = '403355384792-d4bu8gjpjavpa50st8ba7jrn7haemieb.apps.googleusercontent.com';
+
+    const { account, setAccount } = useContext(AccountContext);
+
+    const onLoginSuccess = (res) => {
+        console.log('Login Successful');
+        console.log(res.profileObj);
+        setAccount(res.profileObj);
+    }
+
+    const onLoginFailure = () => {
+        console.log('Login Failed');
+    }
 
     return (
         <Dialog
@@ -63,8 +80,18 @@ const Login = ({ classes }) => {
                         <ListItem>3. Point your phone to this screen to capture the code</ListItem>
                     </List>
                 </Box>
-                <Box>
+                <Box style={{ position: 'relative' }}>
                     <img src={qrurl} alt='qr' className={classname.qrCode} />
+                    <Box style={{ position: 'absolute', left: '50%', top: '50%' }}>
+                        <GoogleLogin
+                            clientId={clientId}
+                            buttonText=""
+                            isSignedIn={true}
+                            onSuccess={onLoginSuccess}
+                            onFailure={onLoginFailure}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                    </Box>
                 </Box>
             </Box>
         </Dialog>
