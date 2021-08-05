@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import { Dialog, withStyles, Box, Typography, makeStyles, List, ListItem } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
+import { clientId } from '../constants/data';
 
 import { AccountContext } from '../../context/AccountProvider';
 
@@ -51,7 +52,6 @@ const style = {
 const Login = ({ classes }) => {
     const classname = useStyles();
     const qrurl = 'https://ginifab.com/feeds/qr_code/img/qrcode.jpg';
-    const clientId = '403355384792-d4bu8gjpjavpa50st8ba7jrn7haemieb.apps.googleusercontent.com';
 
     const { account, setAccount } = useContext(AccountContext);
 
