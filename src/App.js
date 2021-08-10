@@ -3,12 +3,15 @@ import React from "react";
 // components
 import Messenger from "./components/Messenger";
 import AccountProvider from "./context/AccountProvider";
+import TemplateProvider from "./theme/TemplateProvider";
 
 const App = () => {
     return (
-        <AccountProvider>
-            <Messenger />
-        </AccountProvider>
+        <TemplateProvider>
+            <AccountProvider>
+                <Messenger />
+            </AccountProvider>
+        </TemplateProvider> 
     );
 }
 

@@ -8,6 +8,9 @@ import { clientId } from '../constants/data';
 
 import { AccountContext } from '../../context/AccountProvider';
 
+// components
+import Drawer from '../drawer/InfoDrawer';
+
 const useStyles = makeStyles({
     menuItem: {
         fontSize: 14,
@@ -28,6 +31,7 @@ const HeaderMenu = () => {
     const classes = useStyles();
 
     const [open, setOpen] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
     const { setAccount } = useContext(AccountContext);
 
     const handleClose = () => {
@@ -42,6 +46,10 @@ const HeaderMenu = () => {
         alert("You have been logged out successfully");
         console.clear();
         setAccount(null);
+    }
+
+    const toggleDrawer = () => {
+        setOpenDrawer(true);
     }
 
     return (
@@ -62,7 +70,7 @@ const HeaderMenu = () => {
                     horizontal: 'right'
                 }}
             >
-                <MenuItem className={classes.menuItem} onClick={handleClose}>Profile</MenuItem>
+                <MenuItem className={classes.menuItem} onClick={() => { handleClose(); toggleDrawer() }}>Profile</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose}>
                     <GoogleLogout
                         clientId={clientId}
@@ -73,6 +81,7 @@ const HeaderMenu = () => {
                     </GoogleLogout>
                 </MenuItem>
             </Menu>
+            <Drawer open={openDrawer} setOpen={setOpenDrawer} />
         </>
     );
 }

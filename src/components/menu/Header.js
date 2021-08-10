@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Box, makeStyles } from '@material-ui/core';
 import { Chat } from '@material-ui/icons';
@@ -7,6 +7,7 @@ import { AccountContext } from '../../context/AccountProvider';
 
 // components
 import HeaderMenu from './HeaderMenu';
+import Drawer from '../drawer/InfoDrawer';
 
 const useStyles = makeStyles({
     header: {
@@ -40,16 +41,25 @@ const Header = () => {
 
     const classes = useStyles();
 
+    const [open, setOpen] = useState(false);
+
     const { account } = useContext(AccountContext);
 
+    const toggleDrawer = () => {
+        setOpen(true);
+    }
+
     return (
-        <Box className={classes.header}>
-            <img src={account.imageUrl} alt="display-picture" className={classes.avatar} />
-            <Box className={classes.icons}>
-                <Chat />
-                <HeaderMenu />
+        <>
+            <Box className={classes.header}>
+                <img src={account.imageUrl} onClick={toggleDrawer} alt="display-picture" className={classes.avatar} />
+                <Box className={classes.icons}>
+                    <Chat />
+                    <HeaderMenu />
+                </Box>
             </Box>
-        </Box>
+            <Drawer open={open} setOpen={setOpen} />
+        </>
     );
 }
 
